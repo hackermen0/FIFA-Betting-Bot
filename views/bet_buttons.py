@@ -14,12 +14,7 @@ class homeTeamButton(Button):
 
     async def callback(self, interaction):
 
-        otherButton = self.view.get_item('awayTeamBtn')
-
-        self.disabled = True
-        otherButton.disabled = True
-
-        modal = BetModal(title = f"Betting for {self.label}", teamBettedOn = self.label, matchID = self.matchID)
+        modal = BetModal(title = f"Betting for {self.label}", teamBettedOn = self.label, matchID = self.matchID, view = self.view)
 
         await interaction.response.send_modal(modal)
         await interaction.edit_original_response(view = self.view)
@@ -37,13 +32,7 @@ class awayTeamButton(Button):
 
     async def callback(self, interaction):
 
-        otherButton = self.view.get_item('homeTeamBtn')
-
-        self.disabled = True
-        otherButton.disabled = True
-
-
-        modal = BetModal(title = f"Betting for {self.label}", teamBettedOn = self.label, matchID = self.matchID)
+        modal = BetModal(title = f"Betting for {self.label}", teamBettedOn = self.label, matchID = self.matchID, view = self.view)
 
         await interaction.response.send_modal(modal)
         await interaction.edit_original_response(view = self.view)

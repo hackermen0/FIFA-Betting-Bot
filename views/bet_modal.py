@@ -9,8 +9,10 @@ from dbFunctions import updateBalance, updateBet, lowFunds
 
 
 class BetModal(Modal):
-    def __init__(self, *args, teamBettedOn, matchID, **kwargs):
+    def __init__(self, *args, teamBettedOn, matchID, view, **kwargs):
         super().__init__(*args, **kwargs)
+
+        self.view = view
 
         self.add_item(InputText(label = 'Must be a number', placeholder = 'Enter Amount', style = InputTextStyle.singleline))
 
@@ -29,7 +31,14 @@ class BetModal(Modal):
 
                 updateBalance(userID = interaction.user.id, method = "sub", amount = value)
                 updateBet(matchID = self.matchID, userID = interaction.user.id, team = self.teamBettedOn, amount = value)
-                await interaction.response.send_message(f"You betted {value} for {self.teamBettedOn}", ephemeral = True)
+
+                homeTeamButton = self.view.get_item("homeTeamBtn")
+                awayTeamButton = self.view.get_item("awayTeamBtn")
+
+                homeTeamButton.disabled = True
+                awayTeamButton.disabled = True
+
+                await interaction.response.send_message(f"You betted {value} for {self.teamBettedOn}", ephemeral = True, view = self.view)
 
             except lowFunds:
                 await interaction.response.send_message(f"You dont have enough money to bet {value}", ephemeral = True)

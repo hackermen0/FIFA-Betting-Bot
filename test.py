@@ -1,3 +1,5 @@
+
+from threading import Thread
 from pymongo import MongoClient
 import os
 import schedule
@@ -21,44 +23,6 @@ headers = {
     'x-apisports-key' : apiKey,
 }
 
-
-# year = datetime.now(tz = timezone("UTC")).year
-# month = datetime.now(tz = timezone("UTC")).month
-# day = datetime.now(tz = timezone("UTC")).day
-
-# datetime(year = year, month = month, day = day, hour = "", minute = "")
-
-
-
-def job():
-
-    matchObject = Match()
-
-    data = matchObject.getData()
-
-
-    data = list(map(lambda x: (x['fixture']['date'][:-9][11:]).replace(":", ""), data))
-
-    data.sort(reverse = True)
-
-    return(data[0])
-
-
-time = job()
-
-print(time)
-
-nowTime = datetime.now(tz = timezone("UTC"))
-
-hour = int(time[:2])
-minute = int(time[2:])
-year = nowTime.year
-month = nowTime.month
-day = nowTime.day
-
-print(hour, minute)    
-
-print(datetime(year = year, month = month, day = day, hour = hour, minute = minute, tzinfo = timezone("UTC")))
 
 
 # def redeemBet():
@@ -115,9 +79,31 @@ print(datetime(year = year, month = month, day = day, hour = hour, minute = minu
 
 
 
-# schedule.every().day.at("00:00").do(job)
+# # year = datetime.now(tz = timezone("UTC")).year
+# # month = datetime.now(tz = timezone("UTC")).month
+# # day = datetime.now(tz = timezone("UTC")).day
+
+# # datetime(year = year, month = month, day = day, hour = "", minute = "")
+def function():
+    print("ramesh")
+
+schedule.every().minute.do(function)
+
+def redeemFunction():
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
 
 
-# while True:
-#     schedule.run_pending()
-#     time.sleep(1)
+daemon = Thread(target = redeemFunction, daemon = True, name = "Redeem")
+
+
+
+def main():
+    daemon.start()
+
+
+if __name__ == "__main__":
+    main()
+
+

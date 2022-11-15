@@ -94,9 +94,12 @@ class Cog(commands.Cog):
 
             embedList.append((embed))
 
+            print(checkBetExists(matchID, ctx.author.id))
 
             if checkBetExists(matchID, ctx.author.id) == True or matchStatusCode != 'NS':
                 self.disabledValue = True  
+            else: 
+                self.disabledValue = False
 
 
             homeTeamButtonObject = homeTeamButton(label = homeTeamName, disabled = self.disabledValue, matchID = matchID) 

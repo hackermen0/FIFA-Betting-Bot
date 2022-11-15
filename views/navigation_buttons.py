@@ -2,6 +2,11 @@ import discord
 from discord.ext.pages import PaginatorButton
 
 
+# def updatingButtonStatus(ctx, homeTeamButton, awayTeamButton, matchID, matchStatusCode):
+#     if checkBetExists(matchID, ctx.author.id) == True or matchStatusCode != 'NS':
+#             homeTeamButton.disabled = True
+#             awayTeamButton.disabled = True
+
 
 class forwardButton(PaginatorButton):
     def __init__(self):

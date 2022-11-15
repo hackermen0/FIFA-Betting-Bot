@@ -40,7 +40,7 @@ class Match():
         #date format = str(YYYY-MM-DD)   
 
         for pos, fixture in enumerate(self.data['response']):
-            if fixture['fixture']['date'][:-15] == "2022-11-06":
+            if fixture['fixture']['date'][:-15] == "2022-12-26":
                 matchesToday.append(fixture)
 
         return matchesToday
