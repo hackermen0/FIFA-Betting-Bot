@@ -7,6 +7,7 @@ from discord.ext import commands, pages
 from discord import ApplicationContext, slash_command
 from views.navigation_buttons import forwardButton, backwardButton, firstButton, lastButton, PageIndicator
 from views.bet_buttons import homeTeamButton, awayTeamButton
+from views.donation_button import donationButton
 from dbFunctions import checkBetExists
 import discord
 
@@ -94,7 +95,6 @@ class Cog(commands.Cog):
 
             embedList.append((embed))
 
-            print(checkBetExists(matchID, ctx.author.id))
 
             if checkBetExists(matchID, ctx.author.id) == True or matchStatusCode != 'NS':
                 self.disabledValue = True  
@@ -104,6 +104,8 @@ class Cog(commands.Cog):
 
             homeTeamButtonObject = homeTeamButton(label = homeTeamName, disabled = self.disabledValue, matchID = matchID) 
             awayTeamButtonObject = awayTeamButton(label = awayTeamName, disabled = self.disabledValue, matchID = matchID)
+            donationButtonObject = donationButton()
+
 
             
             buttonList.append((homeTeamButtonObject, awayTeamButtonObject))
@@ -111,7 +113,7 @@ class Cog(commands.Cog):
         
         homeTeamButtonObject, awayTeamButtonObject = buttonList[0]
         
-        view = View(homeTeamButtonObject, awayTeamButtonObject)
+        view = View(homeTeamButtonObject, awayTeamButtonObject, donationButtonObject)
         paginator = pages.Paginator(embedList, custom_view = view)
 
         paginator.embedList = embedList     
