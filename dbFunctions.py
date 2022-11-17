@@ -49,7 +49,7 @@ def createBalance(userID : int, userName : str):
 
 #checks if the discord user has a balance using the user's id
 
-def checkExists(userID):
+def checkUserExists(userID):
     check = collection.find_one({'_id' : userID})
 
     if check == None:

@@ -16,12 +16,13 @@ class Match():
         apiKey = 'f64adcb9a21a52f073e5c24da0666d6f'
         baseLink = 'https://v3.football.api-sports.io'
 
-        leaugeID = '39'
+        leaugeID = '1'
         season = '2022'
 
         # statusLink = f'{baseLink}/status'
         fixturesLink = f'{baseLink}/fixtures?league={leaugeID}&season={season}'
 
+        print(fixturesLink)
 
         headers = {
             'x-apisports-key' : apiKey,
@@ -40,7 +41,7 @@ class Match():
         #date format = str(YYYY-MM-DD)   
 
         for pos, fixture in enumerate(self.data['response']):
-            if fixture['fixture']['date'][:-15] == "2022-12-26":
+            if fixture['fixture']['date'][:-15] == "2022-11-20":
                 matchesToday.append(fixture)
 
         return matchesToday
@@ -53,6 +54,8 @@ class Match():
      
         homeTeamLogo = data[pos]['teams']['home']['logo']
         awayTeamLogo = data[pos]['teams']['away']['logo']
+
+        matchweek = data[pos]['league']['round']
 
         with open("./static/images/homeTeam.png", 'wb') as f:
             
@@ -69,7 +72,8 @@ class Match():
         homeTeam = Image.open('./static/images/homeTeam.png').convert("RGBA")
         awayTeam = Image.open('./static/images/awayTeam.png').convert("RGBA")
 
-
+        homeTeam.resize((225, 125))
+        awayTeam.resize((225, 125))
 
         background = Image.new("RGBA", (827, 434), (232, 238, 239))
 
@@ -81,7 +85,7 @@ class Match():
         robotoSemiBold = ImageFont.truetype("./static/fonts/Roboto-Medium.ttf", 31)
         robotoExtraBold = ImageFont.truetype("./static/fonts/Roboto-Bold.ttf", 42)
 
-        backgroundDraw.text((293,90), "Weekday 11 of 31", fill=(0,0,0), font = robotoSemiBold)
+        backgroundDraw.text((293,90), matchweek, fill=(0,0,0), font = robotoSemiBold)
         backgroundDraw.text((390,242), "VS", fill=(0,0,0), font = robotoExtraBold)
 
         background.save(f"./static/images/matchBanner{pos}.png")
