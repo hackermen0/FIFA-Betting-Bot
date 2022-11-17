@@ -41,7 +41,7 @@ class Match():
         #date format = str(YYYY-MM-DD)   
 
         for pos, fixture in enumerate(self.data['response']):
-            if fixture['fixture']['date'][:-15] == "2022-11-20":
+            if fixture['fixture']['date'][:-15] == "2022-11-22":
                 matchesToday.append(fixture)
 
         return matchesToday
@@ -72,21 +72,29 @@ class Match():
         homeTeam = Image.open('./static/images/homeTeam.png').convert("RGBA")
         awayTeam = Image.open('./static/images/awayTeam.png').convert("RGBA")
 
-        homeTeam.resize((225, 125))
-        awayTeam.resize((225, 125))
+        resizedHomeTeam = homeTeam.resize((225, 125))
+        resizedAwayTeam = awayTeam.resize((225, 125))
 
         background = Image.new("RGBA", (827, 434), (232, 238, 239))
 
         backgroundDraw = ImageDraw.Draw(background)
 
-        background.paste(homeTeam, (100, 195), homeTeam)
-        background.paste(awayTeam, (583, 195), awayTeam)
-
         robotoSemiBold = ImageFont.truetype("./static/fonts/Roboto-Medium.ttf", 31)
         robotoExtraBold = ImageFont.truetype("./static/fonts/Roboto-Bold.ttf", 42)
 
         backgroundDraw.text((293,90), matchweek, fill=(0,0,0), font = robotoSemiBold)
-        backgroundDraw.text((390,242), "VS", fill=(0,0,0), font = robotoExtraBold)
+        backgroundDraw.text((388,242), "VS", fill=(0,0,0), font = robotoExtraBold)
+
+        print(resizedHomeTeam.size[0])
+        print(resizedAwayTeam.size[0])
+
+        homeTeamXcoordinate = round((388 - resizedHomeTeam.size[0]) / 2)
+        awayTeamXcoordinate = 430 + round((388 - resizedAwayTeam.size[0]) / 2)
+
+
+
+        background.paste(resizedHomeTeam, (homeTeamXcoordinate, 195), resizedHomeTeam)
+        background.paste(resizedAwayTeam, (awayTeamXcoordinate, 195), resizedAwayTeam)
 
         background.save(f"./static/images/matchBanner{pos}.png")
         os.remove("./static/images/homeTeam.png")

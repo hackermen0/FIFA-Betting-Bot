@@ -1,10 +1,4 @@
-
-
-
-
 from PIL import Image
-
-
 
 
 img = Image.open( r"C:\Users\upaay\OneDrive\Desktop\1569.png")

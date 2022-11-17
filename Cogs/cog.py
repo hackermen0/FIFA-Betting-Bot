@@ -79,7 +79,7 @@ class Cog(commands.Cog):
                 homeTeamName = match['teams']['home']['name']
                 awayTeamName = match['teams']['away']['name']
 
-                embed = discord.Embed(title = "Premier League", color = ctx.author.color)
+                embed = discord.Embed(title = matchTitle, color = ctx.author.color)
                 embed.set_author(name = 'FIFA Betting Bot')
                 embed.set_thumbnail(url = thumbnail)
                 embed.add_field(name = 'Status:', value = matchStatusDisplay, inline = False)
