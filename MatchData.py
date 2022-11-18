@@ -22,8 +22,6 @@ class Match():
         # statusLink = f'{baseLink}/status'
         fixturesLink = f'{baseLink}/fixtures?league={leaugeID}&season={season}'
 
-        print(fixturesLink)
-
         headers = {
             'x-apisports-key' : apiKey,
         }
@@ -41,7 +39,7 @@ class Match():
         #date format = str(YYYY-MM-DD)   
 
         for pos, fixture in enumerate(self.data['response']):
-            if fixture['fixture']['date'][:-15] == "2022-11-22":
+            if fixture['fixture']['date'][:-15] == "2022-11-21":
                 matchesToday.append(fixture)
 
         return matchesToday
@@ -90,8 +88,6 @@ class Match():
 
         homeTeamXcoordinate = round((388 - resizedHomeTeam.size[0]) / 2)
         awayTeamXcoordinate = 430 + round((388 - resizedAwayTeam.size[0]) / 2)
-
-
 
         background.paste(resizedHomeTeam, (homeTeamXcoordinate, 195), resizedHomeTeam)
         background.paste(resizedAwayTeam, (awayTeamXcoordinate, 195), resizedAwayTeam)

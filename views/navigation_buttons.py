@@ -5,11 +5,14 @@ from discord.ext.pages import PaginatorButton
 
 
 class forwardButton(PaginatorButton):
-    def __init__(self):
+    def __init__(self, ctx):
+        self.ctx = ctx
         super().__init__(style = discord.ButtonStyle.green, label = ' >', disabled = False, custom_id = 'forwardBtn', button_type = "next", row = 0)
 
 
     async def callback(self, interaction: discord.Interaction):
+
+
 
         pageCount = self.paginator.current_page
         maxPage = self.paginator.page_count
@@ -24,7 +27,7 @@ class forwardButton(PaginatorButton):
 
     
         if int(pageCount) == int(maxPage - 1):
-  
+
             lastButton.disabled = True
             forwardbutton.disabled = True
 
@@ -56,10 +59,8 @@ class forwardButton(PaginatorButton):
 
 
 
-
-
 class backwardButton(PaginatorButton):
-    def __init__(self):
+    def __init__(self, ):
         super().__init__(style = discord.ButtonStyle.green, label = ' <', disabled = True, custom_id = 'backwardBtn', button_type = "prev", row = 0)
       
 
@@ -109,13 +110,12 @@ class backwardButton(PaginatorButton):
 
         
 class lastButton(PaginatorButton):
-    def __init__(self):
+    def __init__(self, ):
         super().__init__(style = discord.ButtonStyle.green, label = ' >>', disabled = False, custom_id = 'lastBtn', button_type = "last", row = 0)
 
 
     async def callback(self, interaction: discord.Interaction):
 
-        pageCount = self.paginator.current_page
         maxPage = self.paginator.page_count
         embedList = self.paginator.embedList  
         buttonList = self.paginator.buttonList
@@ -156,7 +156,7 @@ class lastButton(PaginatorButton):
 
 
 class firstButton(PaginatorButton):
-    def __init__(self):
+    def __init__(self, ):
         super().__init__(style = discord.ButtonStyle.green, label = ' <<', disabled = True, custom_id = 'firstBtn', button_type = "first", row = 0)
 
     async def callback(self, interaction: discord.Interaction):

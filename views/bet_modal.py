@@ -5,7 +5,7 @@ sys.path.append(sys.path[0].replace("\\views", ''))
 from discord.ui import Modal, InputText
 from discord import InputTextStyle
 import discord
-from dbFunctions import updateBalance, updateBet, lowFunds
+from dbFunctions import updateBalance, updateBet, lowFunds, bonusUpdate
 
 
 class BetModal(Modal):
@@ -32,13 +32,15 @@ class BetModal(Modal):
                 updateBalance(userID = interaction.user.id, method = "sub", amount = value)
                 updateBet(matchID = self.matchID, userID = interaction.user.id, team = self.teamBettedOn, amount = value)
 
+                bonusAmount = bonusUpdate(userID = interaction.user.id)
+
                 homeTeamButton = self.view.get_item("homeTeamBtn")
                 awayTeamButton = self.view.get_item("awayTeamBtn")
 
                 homeTeamButton.disabled = True
                 awayTeamButton.disabled = True
 
-                await interaction.response.send_message(f"You betted {value} for {self.teamBettedOn}", ephemeral = True, view = self.view)
+                await interaction.response.send_message(f"You betted {value} for {self.teamBettedOn}\nYou have also received an additional bonus of {bonusAmount}", ephemeral = True)
 
             except lowFunds:
                 await interaction.response.send_message(f"You dont have enough money to bet {value}", ephemeral = True)

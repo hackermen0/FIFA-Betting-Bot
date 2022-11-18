@@ -40,6 +40,7 @@ def createBalance(userID : int, userName : str):
         '_id' : userID,
         'name' : userName,
         'balance' : 1000,
+        'bonus' : 5
 
     }
 
@@ -96,6 +97,32 @@ def updateBalance(userID, method, amount : int):
     collection.update_one(
         {'_id' : userID}, 
         {'$set' : {'balance' : int(updatedBalance)}})
+
+
+def bonusUpdate(userID):
+
+    userData = collection.find_one({"_id" : userID})
+
+    bonus = int(userData['bonus'])
+
+    if bonus < 25:
+        bonus += 1
+
+    baseAmount = 100
+
+    bonusAmount = round(((bonus / 100) * baseAmount))
+
+    amountToGive = baseAmount + bonusAmount
+
+    updateBalance(userID = userID, method = "add", amount = amountToGive)
+    collection.update_one(
+        {"_id" : userID},
+        {"$set" : {"bonus" : bonus}}
+    )
+
+    return amountToGive
+
+
 
 
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
