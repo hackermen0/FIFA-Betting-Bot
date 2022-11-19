@@ -1,6 +1,10 @@
 import os
 from discord.ext import commands
+from dbFunctions import redeemBet
 import discord
+import time
+import schedule
+import threading
 
 
 client = commands.Bot(command_prefix = '.',  case_insensitive=True, help_command = None, intents = discord.Intents.all())
@@ -56,4 +60,21 @@ for filename in os.listdir('./Cogs'):
           
 #-------------------------------------------------------------------------------------------------------------------------
 
+
+schedule.every().day.at("00:00").do(redeemBet)
+
+def main():
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
+
+t1 = threading.Thread(target = main)
+t1.start()
+
+
+
 client.run(os.getenv('DISCORD_TOKEN_TEST'))
+
+
+
+

@@ -95,5 +95,8 @@ class Match():
         background.save(f"./static/images/matchBanner{pos}.png")
         os.remove("./static/images/homeTeam.png")
         os.remove("./static/images/awayTeam.png")
+
+
+
         
 

@@ -4,6 +4,7 @@ path = sys.path[0].replace('\Modules', '')
 sys.path.append(path)
 
 from pymongo import MongoClient
+import requests
 from pytz import timezone
 from pymongo.errors import DuplicateKeyError
 from datetime import datetime, timedelta
@@ -227,8 +228,35 @@ def updateBet(matchID, userID : int, team, amount : int):
 
 
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+def getMatchWin(matchID):
+
+    link = f"https://v3.football.api-sports.io/fixtures?id={matchID}"
+
+    headers = {
+        'x-apisports-key' : "f64adcb9a21a52f073e5c24da0666d6f"
+    }
+
+
+    r = requests.get(link, headers = headers)
+
+
+    data = r.json()
+
+    homeTeam = data['response'][0]['teams']['home']
+
+    if homeTeam['winner'] == "True":
+        winner = homeTeam['name']
+    else:
+        awayTeam = data['response'][0]['teams']['away']
+        winner = awayTeam['name']
+
+    return winner
+
+#-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 #Gives the updatedBalance to all the users who betted on the winning team
-#Updates the amount from the bets from the previous day(IST)
+#Updates the amount from the bets from the previous day(UTC)
 #Gets match win data from the function getMatchWin(imported in line 6) using the match id 
 #Formula to determine the amount of money to be incremented = (user's bet ammount / teamTotalAmount) * TotalAmount in the betting pool
 #uses the updateBalance(line 82) to update the user's balance
@@ -238,8 +266,8 @@ def updateBet(matchID, userID : int, team, amount : int):
 def redeemBet():
 
 
-    IST = timezone('Asia/Kolkata')
-    now = datetime.now(IST) - timedelta(days = 1)
+    UTC = timezone('UTC')
+    now = datetime.now(UTC) - timedelta(days = 1)
     date_format = '%Y-%m-%d'
     formattedDate = now.strftime(date_format)
 
