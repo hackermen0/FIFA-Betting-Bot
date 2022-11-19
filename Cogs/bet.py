@@ -80,7 +80,8 @@ class Bet(commands.Cog):
                 awayTeamName = match['teams']['away']['name']
 
                 embed = discord.Embed(title = matchTitle, color = ctx.author.color)
-                embed.set_author(name = 'FIFA Betting Bot')
+                embed.set_author(name = 'FIFA Betting Bot', icon_url = "https://cdn.discordapp.com/attachments/894851964406468669/1043592586151071925/botpfp.png")
+                embed.set_footer(text = f"Used by {ctx.author}")
                 embed.set_thumbnail(url = thumbnail)
                 embed.add_field(name = 'Status:', value = matchStatusDisplay, inline = False)
                 embed.add_field(name = "Status Code", value = matchStatusCode)

@@ -1,12 +1,16 @@
 import sys
 
+
 path = sys.path[0].replace('\Cogs', '')
 sys.path.append(path)
+
 
 from discord import ApplicationContext, slash_command, option
 from discord.ext import commands
 import discord
-from dbFunctions import getBalance, redeemBet
+from dbFunctions import getBalance, redeemBet, getLeaderboard
+from datetime import datetime
+
 
 
 #creating a check so only my user can execute the commands in this file
@@ -33,6 +37,8 @@ class Bal(commands.Cog):
 
                 balanceEmbed = discord.Embed(title = f'{ctx.author} Balance', color = ctx.author.color)
                 balanceEmbed.add_field(name = 'Balance: ', value = userBalance)
+                balanceEmbed.set_author(name = 'FIFA Betting Bot', icon_url = "https://cdn.discordapp.com/attachments/894851964406468669/1043592586151071925/botpfp.png")
+                balanceEmbed.set_footer(text = f"Used by {ctx.author}")
                 
                 await ctx.respond(embed = balanceEmbed)
 
@@ -47,9 +53,38 @@ class Bal(commands.Cog):
 
                 balanceEmbed = discord.Embed(title = f'{member.name}#{member.discriminator} Balance', color = ctx.author.color)
                 balanceEmbed.add_field(name = 'Balance: ', value = userBalance)
+                balanceEmbed.set_author(name = 'FIFA Betting Bot', icon_url = "https://cdn.discordapp.com/attachments/894851964406468669/1043592586151071925/botpfp.png")
+                balanceEmbed.set_footer(text = f"Used by {ctx.author}")
+                
                 
                 await ctx.respond(embed = balanceEmbed)
+
+    @slash_command(name = 'leaderboard')
+    async def leaderboard(self, ctx : ApplicationContext):
+
+        embed = discord.Embed(title = "Leaderboard", color = ctx.author.color, timestamp = datetime.now())      
+        embed.set_author(name = 'FIFA Betting Bot', icon_url = "https://cdn.discordapp.com/attachments/894851964406468669/1043592586151071925/botpfp.png")
+        embed.set_footer(text = f"Used by {ctx.author}")
         
+        moneyList = getLeaderboard()
+
+        for pos, item in enumerate(moneyList):
+
+            if pos == 15:
+                break
+
+            userID = item[0]
+            balance = item[1]
+
+            User = self.client.get_user(userID)
+
+            embed.add_field(name = f"{pos + 1}) {User.name}#{User.discriminator}:" , value = str(balance), inline = False)
+
+        
+        await ctx.respond(embed = embed)
+
+            
+
 
     @commands.check(hackerman)
     @commands.command(name = "redeem")

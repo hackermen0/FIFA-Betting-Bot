@@ -17,6 +17,10 @@ class Utility(commands.Cog):
 
         embed.add_field(name = "Latency:", value = f"{round(self.client.latency * 1000)}ms")
 
+
+        embed.set_author(name = 'FIFA Betting Bot', icon_url = "https://cdn.discordapp.com/attachments/894851964406468669/1043592586151071925/botpfp.png")
+        embed.set_footer(text = f"Used by {ctx.author}")
+
         await ctx.respond(embed = embed)
 
 
@@ -24,6 +28,9 @@ class Utility(commands.Cog):
     async def help(self, ctx : ApplicationContext):
 
         embed = discord.Embed(title = "Help", color = ctx.author.color, timestamp= datetime.now())
+
+        embed.set_author(name = 'FIFA Betting Bot', icon_url = "https://cdn.discordapp.com/attachments/894851964406468669/1043592586151071925/botpfp.png")
+        embed.set_footer(text = f"Used by {ctx.author}")
 
         embed.add_field(name = "</balance:1037791753496969316>:", value = "Lets you check the amount of money you have to bet", inline = False)
         embed.add_field(name = "</bet:1042886759555547146>:", value = "Lets you bet on the teams that are playing on the current day", inline = False)

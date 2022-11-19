@@ -315,7 +315,22 @@ def redeemBet():
         elif redeemedValue == True:
             raise redeemError(f'Match during {formattedDate} has already been redeemed')
 
+            
+
+#-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+def getLeaderboard():
 
-       
+    def sort(e):
+        return e[1]
+
+
+    allList = list(collection.find())
+
+
+    moneyList = list(map(lambda x: (x['_id'], x['balance']), allList))
+
+    moneyList.sort(key = sort, reverse = True)
+
+    return moneyList
