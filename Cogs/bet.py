@@ -10,6 +10,7 @@ from views.bet_buttons import homeTeamButton, awayTeamButton
 from views.donation_button import donationButton
 from dbFunctions import checkBetExists, checkUserExists
 import discord
+from datetime import datetime
 
 from MatchData import Match
 
@@ -23,7 +24,7 @@ class Bet(commands.Cog):
         self.channelID = 894851964406468669
         
 
-    @slash_command(name = 'bet')
+    @slash_command(name = 'bet', description = "Lets you bet on the teams that are playing on the current day")
     async def bet(self, ctx : ApplicationContext):
 
         if checkUserExists(ctx.user.id) == True:
@@ -79,7 +80,7 @@ class Bet(commands.Cog):
                 homeTeamName = match['teams']['home']['name']
                 awayTeamName = match['teams']['away']['name']
 
-                embed = discord.Embed(title = matchTitle, color = ctx.author.color)
+                embed = discord.Embed(title = matchTitle, color = ctx.author.color, timestamp = datetime.now())
                 embed.set_author(name = 'FIFA Betting Bot', icon_url = "https://cdn.discordapp.com/attachments/894851964406468669/1043592586151071925/botpfp.png")
                 embed.set_footer(text = f"Used by {ctx.author}")
                 embed.set_thumbnail(url = thumbnail)

@@ -10,7 +10,7 @@ class Utility(commands.Cog):
         self.client = client
         
 
-    @slash_command(name = "ping")
+    @slash_command(name = "ping", description = "Returns the latency of the bot")
     async def ping(self, ctx : ApplicationContext):
 
         embed = discord.Embed(title = "Ping", color = ctx.author.color, timestamp = datetime.now())
@@ -24,7 +24,7 @@ class Utility(commands.Cog):
         await ctx.respond(embed = embed)
 
 
-    @slash_command(name = "help")
+    @slash_command(name = "help", description = "Shows the help command")
     async def help(self, ctx : ApplicationContext):
 
         embed = discord.Embed(title = "Help", color = ctx.author.color, timestamp= datetime.now())
@@ -34,6 +34,7 @@ class Utility(commands.Cog):
 
         embed.add_field(name = "</balance:1037791753496969316>:", value = "Lets you check the amount of money you have to bet", inline = False)
         embed.add_field(name = "</bet:1042886759555547146>:", value = "Lets you bet on the teams that are playing on the current day", inline = False)
+        embed.add_field(name = "</leaderboard:1043589673223721131>:", value = "Shows the leaderboard with the top betters", inline = False)
         embed.add_field(name = "</ping:1043105717189615657>:", value = "Returns the latency of the bot", inline = False)
 
         await ctx.respond(embed = embed)

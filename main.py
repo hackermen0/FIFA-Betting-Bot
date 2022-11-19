@@ -64,6 +64,7 @@ for filename in os.listdir('./Cogs'):
 schedule.every().day.at("00:00").do(redeemBet)
 
 def main():
+    print("RedeemBet Thread Started")
     while True:
         schedule.run_pending()
         time.sleep(1)

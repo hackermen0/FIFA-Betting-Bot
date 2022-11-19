@@ -1,8 +1,3 @@
-import sys
-
-path = sys.path[0].replace('\Modules', '')
-sys.path.append(path)
-
 from pymongo import MongoClient
 import requests
 from pytz import timezone
@@ -40,7 +35,7 @@ def createBalance(userID : int, userName : str):
     post = {
         '_id' : userID,
         'name' : userName,
-        'balance' : 1000,
+        'balance' : 5000,
         'bonus' : 5
 
     }
@@ -65,13 +60,15 @@ def checkUserExists(userID):
 #returns the balance of a discord user
 #if user doesnt have a balanace, it will also create a balance for them
 
-def getBalance(userID, userName):
+def getBalance(userID, userName, autoCreate : bool = True):
     userData = collection.find_one({'_id' : userID})
 
+
     if userData == None:
-        createBalance(userID, userName)
-        newUserData = collection.find_one({'_id' : userID})
-        return newUserData['balance']
+        if autoCreate:
+            createBalance(userID, userName)
+            newUserData = collection.find_one({'_id' : userID})
+            return newUserData['balance']
     else:
        return userData['balance']
 
@@ -158,7 +155,7 @@ def updateBet(matchID, userID : int, team, amount : int):
 
     userID = str(userID)
 
-    IST = timezone('Asia/Kolkata')
+    IST = timezone('UTC')
     now = datetime.now(IST) 
     date_format = '%Y-%m-%d'
     formattedDate = now.strftime(date_format)

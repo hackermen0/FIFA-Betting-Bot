@@ -22,8 +22,8 @@ class Bal(commands.Cog):
         self.client = client
 
 
-    @slash_command(name = "balance")
-    @option(name = "member", required = False, type = discord.Member)
+    @slash_command(name = "balance", description = "Lets you check the amount of money you have to bet")
+    @option(name = "member", required = False, type = discord.Member, description = "Let's you check the balance of a server member")
     async def balance(self, ctx : ApplicationContext, member : discord.Member):
 
 
@@ -31,11 +31,9 @@ class Bal(commands.Cog):
 
                 userID = ctx.author.id
 
-
-                #If user doesn't have a balance this function also creates a balance for them and returns it value
                 userBalance = getBalance(userID, str(ctx.author))
 
-                balanceEmbed = discord.Embed(title = f'{ctx.author} Balance', color = ctx.author.color)
+                balanceEmbed = discord.Embed(title = f'{ctx.author} Balance', color = ctx.author.color, timestamp = datetime.now())
                 balanceEmbed.add_field(name = 'Balance: ', value = userBalance)
                 balanceEmbed.set_author(name = 'FIFA Betting Bot', icon_url = "https://cdn.discordapp.com/attachments/894851964406468669/1043592586151071925/botpfp.png")
                 balanceEmbed.set_footer(text = f"Used by {ctx.author}")
@@ -46,12 +44,12 @@ class Bal(commands.Cog):
 
                 userID = member.id
 
-                #If user doesn't have a balance this function also creates a balance for them and returns it value
+                userBalance = getBalance(userID, str(f"{member.name}#{member.discriminator}"), autoCreate = False)
 
+                if userBalance == None:
+                    userBalance = "User doesn't have a balance"
 
-                userBalance = getBalance(userID, str(f"{member.name}#{member.discriminator}"))
-
-                balanceEmbed = discord.Embed(title = f'{member.name}#{member.discriminator} Balance', color = ctx.author.color)
+                balanceEmbed = discord.Embed(title = f'{member.name}#{member.discriminator} Balance', color = ctx.author.color, timestamp = datetime.now())
                 balanceEmbed.add_field(name = 'Balance: ', value = userBalance)
                 balanceEmbed.set_author(name = 'FIFA Betting Bot', icon_url = "https://cdn.discordapp.com/attachments/894851964406468669/1043592586151071925/botpfp.png")
                 balanceEmbed.set_footer(text = f"Used by {ctx.author}")
@@ -59,7 +57,7 @@ class Bal(commands.Cog):
                 
                 await ctx.respond(embed = balanceEmbed)
 
-    @slash_command(name = 'leaderboard')
+    @slash_command(name = 'leaderboard', description = "Shows the leaderboard with the top betters")
     async def leaderboard(self, ctx : ApplicationContext):
 
         embed = discord.Embed(title = "Leaderboard", color = ctx.author.color, timestamp = datetime.now())      
