@@ -7,7 +7,13 @@ import schedule
 import threading
 
 
-client = commands.Bot(command_prefix = '.',  case_insensitive=True, help_command = None, intents = discord.Intents.all())
+intents = discord.Intents()
+intents.message_content = True
+intents.guild_messages = True
+intents.reactions = True
+intents.emojis = True
+
+client = commands.Bot(command_prefix = '.',  case_insensitive=True, help_command = None, intents = intents)
 
 @client.event
 async def on_ready():
@@ -74,7 +80,7 @@ t1.start()
 
 
 
-client.run(os.getenv('DISCORD_TOKEN_FIFA'))
+client.run(os.getenv('DISCORD_TOKEN_TEST'))
 
 
 
