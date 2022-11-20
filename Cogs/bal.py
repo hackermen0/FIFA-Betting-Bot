@@ -74,7 +74,7 @@ class Bal(commands.Cog):
             userID = item[0]
             balance = item[1]
 
-            User = self.client.get_user(userID)
+            User = await self.client.fetch_user(userID)
 
             embed.add_field(name = f"{pos + 1}) {User.name}#{User.discriminator}:" , value = str(balance), inline = False)
 
