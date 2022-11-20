@@ -25,6 +25,11 @@ class Bet(commands.Cog):
         
 
     @slash_command(name = 'bet', description = "Lets you bet on the teams that are playing on the current day")
+    @commands.cooldown(
+        rate = 1,
+        per = 180,
+        type = commands.BucketType.user
+        ) 
     async def bet(self, ctx : ApplicationContext):
 
         if checkUserExists(ctx.user.id) == True:
@@ -117,7 +122,7 @@ class Bet(commands.Cog):
             
             homeTeamButtonObject, awayTeamButtonObject = buttonList[0]
             
-            view = View(homeTeamButtonObject, awayTeamButtonObject, donationButtonObject)
+            view = View(homeTeamButtonObject, awayTeamButtonObject, donationButtonObject, timeout = 300)
             paginator = pages.Paginator(embedList, custom_view = view)
 
             paginator.embedList = embedList     
@@ -134,6 +139,14 @@ class Bet(commands.Cog):
 
         else:
             await ctx.respond("You don't seem to have a balance\nUse the /balance command to create a balance", ephemeral = True)
+
+    @bet.error
+    async def bet_error(self, ctx, error):
+        if isinstance(error, commands.CommandOnCooldown):
+            errorEmbed = discord.Embed(title = "Cooldown", color = ctx.author.color, timestamp = datetime.now())
+            errorEmbed.add_field(name = "---------", value=f'Try again in {error.retry_after:.0f}s')
+            await ctx.respond(embed = errorEmbed, ephemeral = True)    
+
             
             
 def setup(client):
