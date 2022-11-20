@@ -80,7 +80,7 @@ t1.start()
 
 
 
-client.run(os.getenv('DISCORD_TOKEN_TEST'))
+client.run(os.getenv('DISCORD_TOKEN_FIFA'))
 
 
 
