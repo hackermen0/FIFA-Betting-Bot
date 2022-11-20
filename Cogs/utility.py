@@ -14,7 +14,7 @@ class Utility(commands.Cog):
     async def on_message(self, message):
         if self.client.user.mentioned_in(message):
             await message.channel.send("Use the </help:1043846403165782070> for additional information")
-          
+        
 
     @slash_command(name = "ping", description = "Returns the latency of the bot")
     async def ping(self, ctx : ApplicationContext):
@@ -57,7 +57,7 @@ class Utility(commands.Cog):
         embed.set_footer(text = f"Used by {ctx.author}")
 
         embed.add_field(name = "How to play:", value = """
-        Use the </balance:1043846403165782066s> command to create and check the amount of money you have to bet.
+        Use the </balance:1043846403165782066> command to create and check the amount of money you have to bet.
 
         After that use the </bet:1043846403165782073> command to bet on the teams playing on that current day, you can use the navigation buttons to bet on multiple matches.
         If the team you betted on wins, you will be awarded a percentage of total amount betted on that match the next day.
@@ -78,7 +78,7 @@ class Utility(commands.Cog):
         embed.add_field(name = "\u2800", value = """
         If you liked this bot, please consider donating
 
-        It will help with the smooth functioning of this bot and will help with the further development of this bot
+        It will help with the smoother functioning of this bot and will also help with the further development of it
 
         All donations are appreciated ♥️
 
@@ -92,6 +92,3 @@ class Utility(commands.Cog):
 
 def setup(client):
     client.add_cog(Utility(client))
-
-
-
