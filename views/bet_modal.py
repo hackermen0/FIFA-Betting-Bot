@@ -32,7 +32,7 @@ class BetModal(Modal):
                 updateBalance(userID = interaction.user.id, method = "sub", amount = value)
                 updateBet(matchID = self.matchID, userID = interaction.user.id, team = self.teamBettedOn, amount = value)
 
-                bonusAmount = bonusUpdate(userID = interaction.user.id)
+                bonusAmount = bonusUpdate(userID = interaction.user.id, amount = value)
 
                 homeTeamButton = self.view.get_item("homeTeamBtn")
                 awayTeamButton = self.view.get_item("awayTeamBtn")

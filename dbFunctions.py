@@ -99,7 +99,7 @@ def updateBalance(userID, method, amount : int):
 
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-def bonusUpdate(userID):
+def bonusUpdate(userID, amount):
 
     userData = collection.find_one({"_id" : userID})
 
@@ -108,11 +108,11 @@ def bonusUpdate(userID):
     if bonus < 25:
         bonus += 1
 
-    baseAmount = 500
+    baseAmount = amount
 
     bonusAmount = round(((bonus / 100) * baseAmount))
 
-    amountToGive = baseAmount + bonusAmount
+    amountToGive = bonusAmount
 
     updateBalance(userID = userID, method = "add", amount = amountToGive)
     collection.update_one(
