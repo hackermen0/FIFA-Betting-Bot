@@ -40,7 +40,9 @@ class BetModal(Modal):
                 homeTeamButton.disabled = True
                 awayTeamButton.disabled = True
 
-                await interaction.response.send_message(f"You betted {value} for {self.teamBettedOn}\nYou have also received an additional bonus of {bonusAmount}", ephemeral = True)
+                await interaction.response.edit_message(view = self.view)
+                await interaction.followup.send(f"You betted {value} for {self.teamBettedOn}\nYou have also received an additional bonus of {bonusAmount}", ephemeral = True)
+
 
             except lowFunds:
                 await interaction.response.send_message(f"You dont have enough money to bet {value}", ephemeral = True)
