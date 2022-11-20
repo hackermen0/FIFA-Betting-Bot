@@ -10,7 +10,7 @@ class Match():
     def __init__(self):
 
 
-        #date format = str(YYYY-MM-DD )   
+        #date format = str(YYYY-MM-DD)
         self.dateToday = date.today()
 
         apiKey = 'f64adcb9a21a52f073e5c24da0666d6f'
@@ -39,7 +39,7 @@ class Match():
         #date format = str(YYYY-MM-DD)   
 
         for fixture in self.data['response']:
-            if fixture['fixture']['date'][:-15] == self.dateToday:
+            if fixture['fixture']['date'][:-15] == str(self.dateToday):
                 matchesToday.append(fixture)
 
         return matchesToday

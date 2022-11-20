@@ -109,10 +109,10 @@ class Bet(commands.Cog):
                 homeTeamButtonObject = homeTeamButton(label = homeTeamName, disabled = self.disabledValue, matchID = matchID) 
                 awayTeamButtonObject = awayTeamButton(label = awayTeamName, disabled = self.disabledValue, matchID = matchID)
                 donationButtonObject = donationButton()
-
-
-                
+            
                 buttonList.append((homeTeamButtonObject, awayTeamButtonObject))
+
+            
 
             
             homeTeamButtonObject, awayTeamButtonObject = buttonList[0]
@@ -123,7 +123,8 @@ class Bet(commands.Cog):
             paginator.embedList = embedList     
             paginator.buttonList = buttonList
 
-            paginator.add_button(forwardButton(ctx = ctx))
+
+            paginator.add_button(forwardButton())
             paginator.add_button(backwardButton())
             paginator.add_button(firstButton())
             paginator.add_button(lastButton())

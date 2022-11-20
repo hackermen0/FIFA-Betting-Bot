@@ -97,6 +97,8 @@ def updateBalance(userID, method, amount : int):
         {'$set' : {'balance' : int(updatedBalance)}})
 
 
+#-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 def bonusUpdate(userID):
 
     userData = collection.find_one({"_id" : userID})
@@ -106,7 +108,7 @@ def bonusUpdate(userID):
     if bonus < 25:
         bonus += 1
 
-    baseAmount = 100
+    baseAmount = 500
 
     bonusAmount = round(((bonus / 100) * baseAmount))
 

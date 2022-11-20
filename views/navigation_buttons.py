@@ -5,8 +5,7 @@ from discord.ext.pages import PaginatorButton
 
 
 class forwardButton(PaginatorButton):
-    def __init__(self, ctx):
-        self.ctx = ctx
+    def __init__(self):
         super().__init__(style = discord.ButtonStyle.green, label = ' >', disabled = False, custom_id = 'forwardBtn', button_type = "next", row = 0)
 
 
