@@ -13,7 +13,7 @@ class Match():
         #date format = str(YYYY-MM-DD)
         self.dateToday = date.today()
 
-        apiKey = 'f64adcb9a21a52f073e5c24da0666d6f'
+       
         baseLink = 'https://v3.football.api-sports.io'
 
         leaugeID = '1'
@@ -23,7 +23,7 @@ class Match():
         fixturesLink = f'{baseLink}/fixtures?league={leaugeID}&season={season}'
 
         headers = {
-            'x-apisports-key' : apiKey,
+            'x-apisports-key' : os.environ.get("SPORTS_APIKEY"),
         }
 
         r = requests.get(fixturesLink, headers = headers)
