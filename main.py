@@ -7,11 +7,9 @@ import schedule
 import threading
 
 
-intents = discord.Intents()
+intents = discord.Intents().default()
 intents.message_content = True
-intents.guild_messages = True
-intents.reactions = True
-intents.emojis = True
+
 
 client = commands.Bot(command_prefix = '.',  case_insensitive=True, help_command = None, intents = intents)
 
