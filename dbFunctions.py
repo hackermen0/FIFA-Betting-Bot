@@ -304,7 +304,7 @@ def redeemBet():
                     amountEarnt = round(((int(amountBetted) / int(winningTeamTotal)) * int(totalAmount)))
   
 
-                    updateBalance(userID, 'add', int(amountEarnt))
+                    updateBalance(int(userID), 'add', int(amountEarnt))
 
                 betsCollection.update_one({'_id' : matchID}, {'$set' : {'redeemed' : True}})
 
