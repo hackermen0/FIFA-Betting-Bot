@@ -273,13 +273,14 @@ def redeemBet():
     print(formattedDate)
 
     allData = betsCollection.find({'date' : formattedDate})
+
     
     for data in allData:
 
         redeemedValue = data['redeemed']
 
-        if redeemedValue == False:
 
+        if redeemedValue == False:
 
 
             teams = data['teams']
@@ -288,31 +289,59 @@ def redeemBet():
 
             winningTeam = getMatchWin(matchID)
 
+            print(type(winningTeam))
+
+            if isinstance(winningTeam, tuple):
+
+                    homeTeamName = winningTeam[1][0]
+                    print(homeTeamName)
+                    awayTeamName = winningTeam[1][1]
 
 
-            if winningTeam in list(teams.keys()):
+                    if homeTeamName in list(teams.keys()):
 
-                userData = data['teams'][winningTeam]['userBets']
-                winningTeamTotal = data['teams'][winningTeam]['teamTotalAmount']
-                totalAmount = data['totalAmount']
-            
+                        homeTeamData = data['teams'][homeTeamName]['userBets']
 
-                for item in userData.items():
-                    userID = item[0]
-                    amountBetted = item[1]
+                        for item in homeTeamData.items():
+                            userID = item[0]
+                            amountBetted = item[1]
 
-                    amountEarnt = round(((int(amountBetted) / int(winningTeamTotal)) * int(totalAmount)))
-  
+                            updateBalance(int(userID), 'add', int(amountBetted))  
 
-                    updateBalance(int(userID), 'add', int(amountEarnt))
+                    if awayTeamName in list(teams.keys()):
 
-                betsCollection.update_one({'_id' : matchID}, {'$set' : {'redeemed' : True}})
+                        awayTeamData = data['teams'][awayTeamName]['userBets']
+
+                        for item in awayTeamData.items():
+                            userID = item[0]
+                            amountBetted = item[1]
+
+                            updateBalance(int(userID), 'add', int(amountBetted))  
 
             else:
-                pass
+
+                if winningTeam in list(teams.keys()):
+
+                    userData = data['teams'][winningTeam]['userBets']
+                    winningTeamTotal = data['teams'][winningTeam]['teamTotalAmount']
+                    totalAmount = data['totalAmount']
+                
+
+                    for item in userData.items():
+                        userID = item[0]
+                        amountBetted = item[1]
+
+                        amountEarnt = round(((int(amountBetted) / int(winningTeamTotal)) * int(totalAmount)))
+    
+
+                        updateBalance(int(userID), 'add', int(amountEarnt))   
+                              
+
+            betsCollection.update_one({'_id' : matchID}, {'$set' : {'redeemed' : True}})
 
         elif redeemedValue == True:
             raise redeemError(f'Match during {formattedDate} has already been redeemed')
+
 
             
 
