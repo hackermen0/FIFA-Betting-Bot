@@ -243,14 +243,16 @@ def getMatchWin(matchID):
     data = r.json()
 
     homeTeam = data['response'][0]['teams']['home']
+    awayTeam = data['response'][0]['teams']['away']
 
     if homeTeam['winner'] == "True":
-        winner = homeTeam['name']
-    else:
-        awayTeam = data['response'][0]['teams']['away']
-        winner = awayTeam['name']
+        return homeTeam['name']
 
-    return winner
+    elif awayTeam['winner'] == "True": 
+        return awayTeam['name']
+
+    else:
+        return "None", (homeTeam['name'], awayTeam["name"])
 
 #-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
