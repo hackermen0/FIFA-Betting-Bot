@@ -6,9 +6,9 @@ sys.path.append(path)
 
 
 from discord import ApplicationContext, slash_command, option
-from discord.ext import commands
+from discord.ext import commands, pages
 import discord
-from dbFunctions import getBalance, redeemBet, getLeaderboard
+from dbFunctions import getBalance, redeemBet, getLeaderboard, getStats
 from datetime import datetime
 
 
@@ -80,6 +80,68 @@ class Bal(commands.Cog):
 
         
         await ctx.respond(embed = embed)
+
+
+    @slash_command(name = "stats", description = "Shows the amount of money betted on the current day matches")
+    async def stats(self, ctx : ApplicationContext):
+
+
+
+        matchDataList = getStats()
+
+        embedList = []
+
+        for data in matchDataList:
+            if data['numberOfTeams'] == 2:
+                
+                teams = list(data.keys())
+                team1Name = teams[0]
+                team2Name = teams[1]
+
+                team1TotalAmount = data[team1Name]['totalAmount']
+                team1NumberOfBets = data[team1Name]['numberOfBets']
+
+                team2TotalAmount = data[team2Name]['totalAmount']
+                team2NumberOfBets = data[team2Name]['numberOfBets']
+
+                embed = discord.Embed(title = f"Stats", color = ctx.author.color, timestamp = datetime.now())      
+                embed.set_author(name = 'FIFA Betting Bot', icon_url = "https://cdn.discordapp.com/attachments/894851964406468669/1043592586151071925/botpfp.png")
+                embed.set_footer(text = f"Used by {ctx.author}")
+
+                embed.add_field(name = f"Amount betted for **{team1Name}**: ", value = team1TotalAmount, inline = True)
+                embed.add_field(name = f"Amount betted for **{team2Name}**: ", value = team2TotalAmount, inline = True)
+                embed.add_field(name = "\u2800", value = "\u2800", inline = False)
+                embed.add_field(name = f"Number of better's for **{team1Name}**: ", value = team1NumberOfBets, inline = True)
+                embed.add_field(name = f"Number of better's for **{team2Name}**: ", value = team2NumberOfBets, inline = True)
+
+                embedList.append(embed)
+
+            if data['numberOfTeams'] == 1:
+
+                teams = list(data.keys())
+                team1Name = teams[0]
+
+                team1TotalAmount = data[team1Name]['totalAmount']
+                team1NumberOfBets = data[team1Name]['numberOfBets']
+
+
+                embed = discord.Embed(title = "Stats", color = ctx.author.color, timestamp = datetime.now())      
+                embed.set_author(name = 'FIFA Betting Bot', icon_url = "https://cdn.discordapp.com/attachments/894851964406468669/1043592586151071925/botpfp.png")
+                embed.set_footer(text = f"Used by {ctx.author}")
+
+                embed.add_field(name = f"Amount betted for **{team1Name}**: ", value = team1TotalAmount, inline = True)
+                embed.add_field(name = "\u2800", value = "\u2800", inline = False)
+                embed.add_field(name = f"Number of better's for **{team1Name}**: ", value = team1NumberOfBets, inline = True)
+
+                embedList.append(embed)
+
+
+
+        paginator = pages.Paginator(pages = embedList)
+
+
+        await paginator.respond(ctx.interaction)
+                
 
             
 

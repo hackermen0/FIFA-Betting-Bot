@@ -320,6 +320,9 @@ def redeemBet():
 
                             updateBalance(int(userID), 'add', int(amountBetted))  
 
+
+                    betsCollection.update_one({'_id' : matchID}, {'$set' : {'redeemed' : True}})
+
             else:
 
                 if winningTeam in list(teams.keys()):
@@ -339,7 +342,7 @@ def redeemBet():
                         updateBalance(int(userID), 'add', int(amountEarnt))   
                               
 
-            betsCollection.update_one({'_id' : matchID}, {'$set' : {'redeemed' : True}})
+                    betsCollection.update_one({'_id' : matchID}, {'$set' : {'redeemed' : True}})
 
         elif redeemedValue == True:
             raise redeemError(f'Match during {formattedDate} has already been redeemed')
@@ -364,3 +367,67 @@ def getLeaderboard():
     moneyList.sort(key = sort, reverse = True)
 
     return moneyList
+
+
+def getStats():
+
+        now = datetime.now()
+
+        formattedData = now.strftime('%Y-%m-%d')
+
+        data = betsCollection.find(({'date' : formattedData}))
+
+        matchDataList = []
+
+        for match in data:
+            
+            teams = list(match['teams'].keys())
+
+
+            if len(teams) == 2:
+
+                team1 = teams[0]
+                team2 = teams[1]
+
+
+                team1TotalAmount = match['teams'][team1]['teamTotalAmount']
+                team2TotalAmount = match['teams'][team2]['teamTotalAmount']
+
+                team1NumberOfBets = len(match['teams'][team1]['userBets'])
+                team2NumberOfBets = len(match['teams'][team2]['userBets'])
+
+
+                matchData = {
+                    team1 : {
+                        "totalAmount" : team1TotalAmount,
+                        "numberOfBets" : team1NumberOfBets
+                    },
+                    team2 : {
+                        "totalAmount" : team2TotalAmount,
+                        'numberOfBets' : team2NumberOfBets
+                    },
+                    "numberOfTeams" : 2,
+                }
+
+                matchDataList.append(matchData)
+
+            if len(teams) == 1:
+
+                team1 = teams[0]
+
+                team1TotalAmount = match['teams'][team1]['teamTotalAmount']
+                team1NumberOfBets = len(match['teams'][team1]['userBets'])
+
+                matchData = {
+                     team1 : {
+                        "totalAmount" : team1TotalAmount,
+                        "numberOfBets" : team1NumberOfBets
+                    },
+                    "numberOfTeams" : 1,
+                }
+
+                matchDataList.append(matchData)
+
+
+        return matchDataList
+
