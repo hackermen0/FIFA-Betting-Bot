@@ -12,8 +12,8 @@ class Utility(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        if self.client.user.mentioned_in(message):
-            await message.channel.send("Use the </help:1043846403165782070> for additional information")
+        if self.client.user.mention in message.content:
+            await message.channel.send("Use the </help:1043887595882561658> for additional information")
         
 
     @slash_command(name = "ping", description = "Returns the latency of the bot")
@@ -41,9 +41,10 @@ class Utility(commands.Cog):
         embed.add_field(name = "</balance:1043846403165782066>:", value = "Lets you check the amount of money you have to bet", inline = False)
         embed.add_field(name = "</bet:1043846403165782073>:", value = "Lets you bet on the teams that are playing on the current day", inline = False)
         embed.add_field(name = "</leaderboard:1043846403165782068>:", value = "Shows the leaderboard with the top betters", inline = False)
-        embed.add_field(name = "</how:1043846403165782071>:", value = "Shows you how to use this bot", inline = False)
-        embed.add_field(name = "</donate:1043846403165782072>:", value = "If you like this bot you can use this command to donate", inline = False)
-        embed.add_field(name = "</ping:1043846403165782069>:", value = "Returns the latency of the bot", inline = False)
+        embed.add_field(name = "</how:1043887595882561659>:", value = "Shows you how to use this bot", inline = False)
+        embed.add_field(name = "</donate:1043887595882561660>:", value = "If you like this bot you can use this command to donate", inline = False)
+        embed.add_field(name = "</ping:1043887595882561657>:", value = "Returns the latency of the bot", inline = False)
+        embed.add_field(name = "</stats:1045021111492030475>:", value = "Shows the amount of money betted on the current day matche", inline = False)
 
         await ctx.respond(embed = embed)
 
