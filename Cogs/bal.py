@@ -9,6 +9,7 @@ from discord import ApplicationContext, slash_command, option
 from discord.ext import commands, pages
 import discord
 from dbFunctions import getBalance, redeemBet, getLeaderboard, getStats
+from views.leaderboard_select import LeaderboardSelect
 from datetime import datetime
 
 
@@ -60,11 +61,39 @@ class Bal(commands.Cog):
     @slash_command(name = 'leaderboard', description = "Shows the leaderboard with the top betters")
     async def leaderboard(self, ctx : ApplicationContext):
 
-        embed = discord.Embed(title = "Leaderboard", color = ctx.author.color, timestamp = datetime.now())      
-        embed.set_author(name = 'FIFA Betting Bot', icon_url = "https://cdn.discordapp.com/attachments/894851964406468669/1043592586151071925/botpfp.png")
-        embed.set_footer(text = f"Used by {ctx.author}")
+
+        guild = self.client.get_guild(506485291914100737)
+        loadingEmoji = discord.utils.get(guild.emojis, name = 'loading')
+    
+        await ctx.respond(f"Loading {loadingEmoji}")
+
+        localEmbed = discord.Embed(title = "Leaderboard", color = ctx.author.color, timestamp = datetime.now())      
+        localEmbed.set_author(name = 'FIFA Betting Bot', icon_url = "https://cdn.discordapp.com/attachments/894851964406468669/1043592586151071925/botpfp.png")
+        localEmbed.set_footer(text = f"Used by {ctx.author}")
+
         
+        globalEmbed = discord.Embed(title = "Leaderboard", color = ctx.author.color, timestamp = datetime.now())      
+        globalEmbed.set_author(name = 'FIFA Betting Bot', icon_url = "https://cdn.discordapp.com/attachments/894851964406468669/1043592586151071925/botpfp.png")
+        globalEmbed.set_footer(text = f"Used by {ctx.author}")
+
         moneyList = getLeaderboard()
+
+        i = 0
+
+        for item in moneyList:
+
+            userID = item[0]
+            balance = item[1]
+
+            User = await self.client.fetch_user(userID)
+
+            
+            if User in ctx.guild.members:
+
+                localEmbed.add_field(name = f"{i + 1}) {User.name}#{User.discriminator}:" , value = str(balance), inline = False)
+
+                i += 1
+
 
         for pos, item in enumerate(moneyList):
 
@@ -76,10 +105,14 @@ class Bal(commands.Cog):
 
             User = await self.client.fetch_user(userID)
 
-            embed.add_field(name = f"{pos + 1}) {User.name}#{User.discriminator}:" , value = str(balance), inline = False)
+            globalEmbed.add_field(name = f"{pos + 1}) {User.name}#{User.discriminator}:" , value = str(balance), inline = False)
 
-        
-        await ctx.respond(embed = embed)
+
+
+
+        view = discord.ui.View(LeaderboardSelect(embeds = (localEmbed, globalEmbed)))
+
+        await ctx.edit(embed = localEmbed, view = view)
 
 
     @slash_command(name = "stats", description = "Shows the amount of money betted on the current day matches")
