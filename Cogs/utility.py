@@ -9,11 +9,6 @@ class Utility(commands.Cog):
 
         self.client = client
 
-
-    @commands.Cog.listener()
-    async def on_message(self, message):
-        if self.client.user.mention in message.content:
-            await message.channel.send("Use the </help:1043887595882561658> for additional information")
         
 
     @slash_command(name = "ping", description = "Returns the latency of the bot")
