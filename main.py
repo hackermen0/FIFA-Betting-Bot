@@ -1,6 +1,7 @@
 import os
 from discord.ext import commands
 from dbFunctions import redeemBet
+from keep_alive import keep_alive
 import discord
 import time
 import schedule
@@ -9,7 +10,7 @@ import threading
 
 intents = discord.Intents().default()
 intents.message_content = True
-
+intents.members = True
 
 client = commands.Bot(command_prefix = '.',  case_insensitive=True, help_command = None, intents = intents)
 
@@ -76,6 +77,7 @@ def main():
 t1 = threading.Thread(target = main)
 t1.start()
 
+keep_alive()
 
 
 client.run(os.getenv('DISCORD_TOKEN_FIFA'))
