@@ -94,6 +94,7 @@ class Bal(commands.Cog):
             serverMoneyList = list(filter(lambda x: x['_id'] in userList, moneyList))
 
 
+<<<<<<< HEAD
             for pos, item in enumerate(serverMoneyList[:15]):
 
                 userID = item["_id"]
@@ -114,6 +115,9 @@ class Bal(commands.Cog):
 
 
             
+=======
+        await ctx.edit(embed = localEmbed, view = view, content = " ")
+>>>>>>> 02b00c41714fdaa684365cf1e9592e71a17d8bbf
 
 
     @slash_command(name = "stats", description = "Shows the amount of money betted on the current day matches")
@@ -138,7 +142,7 @@ class Bal(commands.Cog):
                 team2TotalAmount = data[team2Name]['totalAmount']
                 team2NumberOfBets = data[team2Name]['numberOfBets']
 
-                embed = discord.Embed(title = f"Stats", color = ctx.author.color, timestamp = datetime.now())      
+                embed = discord.Embed(title = "Stats", color = ctx.author.color, timestamp = datetime.now())      
                 embed.set_author(name = 'FIFA Betting Bot', icon_url = "https://cdn.discordapp.com/attachments/894851964406468669/1043592586151071925/botpfp.png")
                 embed.set_footer(text = f"Used by {ctx.author}")
 
