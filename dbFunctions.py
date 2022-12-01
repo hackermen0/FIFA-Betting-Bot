@@ -355,19 +355,9 @@ def redeemBet():
 
 def getLeaderboard():
 
-    def sort(e):
-        return e[1]
-
-
-    allList = list(collection.find())
-
-
-    moneyList = list(map(lambda x: (x['_id'], x['balance']), allList))
-
-    moneyList.sort(key = sort, reverse = True)
-
+    moneyList = list(collection.find().sort("balance", -1))
     return moneyList
-
+    
 
 def getStats():
 

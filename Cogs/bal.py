@@ -58,61 +58,62 @@ class Bal(commands.Cog):
                 
                 await ctx.respond(embed = balanceEmbed)
 
+
+
+
     @slash_command(name = 'leaderboard', description = "Shows the leaderboard with the top betters")
     async def leaderboard(self, ctx : ApplicationContext):
-
-
-        guild = self.client.get_guild(506485291914100737)
-        loadingEmoji = discord.utils.get(guild.emojis, name = 'loading')
-    
-        await ctx.respond(f"Loading {loadingEmoji}")
-
-        localEmbed = discord.Embed(title = "Leaderboard", color = ctx.author.color, timestamp = datetime.now())      
-        localEmbed.set_author(name = 'FIFA Betting Bot', icon_url = "https://cdn.discordapp.com/attachments/894851964406468669/1043592586151071925/botpfp.png")
-        localEmbed.set_footer(text = f"Used by {ctx.author}")
-
         
-        globalEmbed = discord.Embed(title = "Leaderboard", color = ctx.author.color, timestamp = datetime.now())      
-        globalEmbed.set_author(name = 'FIFA Betting Bot', icon_url = "https://cdn.discordapp.com/attachments/894851964406468669/1043592586151071925/botpfp.png")
-        globalEmbed.set_footer(text = f"Used by {ctx.author}")
 
-        moneyList = getLeaderboard()
-
-        i = 0
-
-        for item in moneyList:
-
-            userID = item[0]
-            balance = item[1]
-
-            User = await self.client.fetch_user(userID)
+            localEmbed = discord.Embed(title = "Server Leaderboard", color = ctx.author.color, timestamp = datetime.now())      
+            localEmbed.set_author(name = 'FIFA Betting Bot', icon_url = "https://cdn.discordapp.com/attachments/894851964406468669/1043592586151071925/botpfp.png")
+            localEmbed.set_footer(text = f"Used by {ctx.author}")
 
             
-            if User in ctx.guild.members:
+            globalEmbed = discord.Embed(title = "Global Leaderboard", color = ctx.author.color, timestamp = datetime.now())      
+            globalEmbed.set_author(name = 'FIFA Betting Bot', icon_url = "https://cdn.discordapp.com/attachments/894851964406468669/1043592586151071925/botpfp.png")
+            globalEmbed.set_footer(text = f"Used by {ctx.author}")
 
-                localEmbed.add_field(name = f"{i + 1}) {User.name}#{User.discriminator}:" , value = str(balance), inline = False)
+            moneyList = getLeaderboard()
 
-                i += 1
+            await ctx.defer()
 
+            for pos, item in enumerate(moneyList[:15]):
 
-        for pos, item in enumerate(moneyList):
+                userID = item["_id"]
+                balance = item["balance"]
 
-            if pos == 15:
-                break
+                User = await self.client.fetch_user(userID)
 
-            userID = item[0]
-            balance = item[1]
-
-            User = await self.client.fetch_user(userID)
-
-            globalEmbed.add_field(name = f"{pos + 1}) {User.name}#{User.discriminator}:" , value = str(balance), inline = False)
-
+        
+                globalEmbed.add_field(name = f"{pos + 1}) {User.name}#{User.discriminator}:" , value = str(balance), inline = False)
 
 
 
-        view = discord.ui.View(LeaderboardSelect(embeds = (localEmbed, globalEmbed)))
+            userList = list(map(lambda x: x.id, ctx.guild.members))
+            serverMoneyList = list(filter(lambda x: x['_id'] in userList, moneyList))
 
-        await ctx.edit(embed = localEmbed, view = view)
+
+            for pos, item in enumerate(serverMoneyList[:15]):
+
+                userID = item["_id"]
+                balance = item["balance"]
+
+                User = await self.client.fetch_user(userID)
+
+        
+                localEmbed.add_field(name = f"{pos + 1}) {User.name}#{User.discriminator}:" , value = str(balance), inline = False)
+
+
+
+            view = discord.ui.View(LeaderboardSelect(embeds = (localEmbed, globalEmbed)))
+
+
+            await ctx.interaction.followup.send(embed = localEmbed, view = view, content = "")
+
+
+
+            
 
 
     @slash_command(name = "stats", description = "Shows the amount of money betted on the current day matches")
