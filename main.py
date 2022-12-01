@@ -1,7 +1,7 @@
 import os
 from discord.ext import commands
 from dbFunctions import redeemBet
-from keep_alive import keep_alive
+# from keep_alive import keep_alive
 import discord
 import time
 import schedule
@@ -77,7 +77,7 @@ def main():
 t1 = threading.Thread(target = main)
 t1.start()
 
-keep_alive()
+# keep_alive()
 
 
 client.run(os.getenv('DISCORD_TOKEN_FIFA'))

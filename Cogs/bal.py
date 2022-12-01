@@ -112,7 +112,7 @@ class Bal(commands.Cog):
 
         view = discord.ui.View(LeaderboardSelect(embeds = (localEmbed, globalEmbed)))
 
-        await ctx.edit(embed = localEmbed, view = view)
+        await ctx.edit(embed = localEmbed, view = view, content = " ")
 
 
     @slash_command(name = "stats", description = "Shows the amount of money betted on the current day matches")
@@ -137,7 +137,7 @@ class Bal(commands.Cog):
                 team2TotalAmount = data[team2Name]['totalAmount']
                 team2NumberOfBets = data[team2Name]['numberOfBets']
 
-                embed = discord.Embed(title = f"Stats", color = ctx.author.color, timestamp = datetime.now())      
+                embed = discord.Embed(title = "Stats", color = ctx.author.color, timestamp = datetime.now())      
                 embed.set_author(name = 'FIFA Betting Bot', icon_url = "https://cdn.discordapp.com/attachments/894851964406468669/1043592586151071925/botpfp.png")
                 embed.set_footer(text = f"Used by {ctx.author}")
 
