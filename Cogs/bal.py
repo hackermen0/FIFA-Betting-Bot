@@ -94,7 +94,7 @@ class Bal(commands.Cog):
             serverMoneyList = list(filter(lambda x: x['_id'] in userList, moneyList))
 
 
-<<<<<<< HEAD
+
             for pos, item in enumerate(serverMoneyList[:15]):
 
                 userID = item["_id"]
@@ -113,11 +113,7 @@ class Bal(commands.Cog):
             await ctx.interaction.followup.send(embed = localEmbed, view = view, content = "")
 
 
-
-            
-=======
-        await ctx.edit(embed = localEmbed, view = view, content = " ")
->>>>>>> 02b00c41714fdaa684365cf1e9592e71a17d8bbf
+          
 
 
     @slash_command(name = "stats", description = "Shows the amount of money betted on the current day matches")
